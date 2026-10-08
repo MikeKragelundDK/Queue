@@ -1,0 +1,155 @@
+@use 'sass:color';
+@use 'variables' as *;
+
+.stats {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 60rem;
+
+  &__scope {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    max-width: 24rem;
+  }
+
+  &__scope-chip {
+    align-self: flex-start;
+    background: $color-selected;
+    border-color: $color-selected;
+    font-weight: 600;
+  }
+
+  &__pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+}
+
+.stat-row--kpi {
+  max-width: none;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+}
+
+.stats__section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  border-top: 1px solid $color-border;
+  padding-top: 1.25rem;
+}
+
+.segmented {
+  display: inline-flex;
+  border: 1px solid $color-border;
+  border-radius: $radius;
+  overflow: hidden;
+
+  button {
+    border: none;
+    border-radius: 0;
+    background: $color-panel;
+    padding: 0.3rem 0.7rem;
+    font-size: 0.85rem;
+    color: $color-muted;
+
+    + button {
+      border-left: 1px solid $color-border;
+    }
+
+    &.active {
+      background: $color-selected;
+      color: $color-text;
+      font-weight: 600;
+    }
+  }
+}
+
+.chart-card {
+  background: $color-panel;
+  border: 1px solid $color-border;
+  border-radius: $radius;
+  box-shadow: $shadow;
+  padding: 1rem 1.25rem 1.25rem;
+
+  svg {
+    width: 100%;
+    height: auto;
+    margin-top: 0.75rem;
+  }
+}
+
+.chart-bar {
+  fill: $color-series;
+
+  &:hover {
+    fill: color.adjust($color-series, $lightness: -12%);
+  }
+}
+
+.chart-grid {
+  stroke: $color-border;
+  stroke-dasharray: 3 3;
+}
+
+.chart-baseline {
+  stroke: $color-border;
+}
+
+.chart-axis {
+  fill: $color-muted;
+  font-size: 10px;
+}
+
+.hbar-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+// Kolonnen følger indholdet, så tre-cifrede kø-tal ikke klippes.
+.hbar-chart--wide-values .hbar-row {
+  grid-template-columns: $hbar-label-width 1fr max-content;
+
+  .hbar-row__value {
+    white-space: nowrap;
+  }
+}
+
+.hbar-row {
+  display: grid;
+  grid-template-columns: $hbar-label-width 1fr $hbar-value-width;
+  align-items: center;
+  gap: 0.6rem;
+
+  &__label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.9rem;
+  }
+
+  &__track {
+    background: $color-surface;
+    border-radius: $radius;
+    height: 1.1rem;
+    overflow: hidden;
+  }
+
+  &__bar {
+    background: $color-series;
+    height: 100%;
+    border-radius: $radius 0 0 $radius;
+    min-width: 2px;
+    transition: width 0.3s ease;
+  }
+
+  &__value {
+    text-align: right;
+    color: $color-muted;
+  }
+}

@@ -1,0 +1,24 @@
+@use 'variables' as *;
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: $spacing;
+
+  th,
+  td {
+    border: 1px solid $color-border;
+    padding: 0.35rem 0.6rem;
+    text-align: left;
+    font-size: 0.9rem;
+  }
+
+  th {
+    background: $color-surface;
+  }
+}
+
+.dirty {
+  color: $color-dirty;
+  font-weight: 600;
+}

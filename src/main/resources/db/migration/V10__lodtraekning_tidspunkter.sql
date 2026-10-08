@@ -1,0 +1,3 @@
+ALTER TABLE queue
+    ADD COLUMN opens_at DATETIME(6) NULL,
+    ADD COLUMN drawn_at DATETIME(6) NULL;

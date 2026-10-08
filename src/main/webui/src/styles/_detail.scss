@@ -1,0 +1,126 @@
+@use 'sass:map';
+@use 'variables' as *;
+
+.detail {
+  background: $color-panel;
+  border: 1px solid $color-border;
+  border-radius: $radius;
+  box-shadow: $shadow;
+  padding: 1rem 1.25rem 1.25rem;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+
+  &__meta {
+    color: $color-muted;
+    font-size: 0.85rem;
+  }
+
+  &__facts {
+    display: flex;
+    gap: 2rem;
+    margin: 1rem 0;
+
+    dt {
+      color: $color-muted;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    dd {
+      margin: 0;
+      font-weight: 600;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: 0.5rem;
+    margin: 1rem 0;
+    flex-wrap: wrap;
+  }
+}
+
+.capacity-fact {
+  min-width: 18rem;
+}
+
+.capacity-editor {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+
+  input {
+    width: 6rem;
+    font: inherit;
+    padding: 0.3rem 0.45rem;
+    border: 1px solid $color-border;
+    border-radius: $radius;
+  }
+
+  &__hint {
+    display: block;
+    margin-top: 0.2rem;
+    color: $color-muted;
+    font-size: 0.75rem;
+    font-weight: 400;
+  }
+}
+
+.inline-action {
+  margin-left: 0.5rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: $color-series;
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(6.5rem, 1fr));
+  gap: 0.6rem;
+  max-width: 34rem;
+}
+
+.stat-tile {
+  background: $color-surface;
+  border-radius: $radius;
+  padding: 0.6rem 0.8rem;
+
+  &__value {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 650;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: $color-muted;
+    font-size: 0.78rem;
+  }
+}
+
+.state-dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  display: inline-block;
+  flex: none;
+}
+
+@each $state, $style in $state-styles {
+  .state-dot--#{$state} {
+    background: map.get($style, dot);
+  }
+}

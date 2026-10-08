@@ -1,0 +1,20 @@
+-- Indeks til opslaget af abonnementsknuden på type.
+--
+-- To kodestier slår op med præcis dette prædikat — `queue_type = ? AND
+-- archived_at IS NULL`: routingen af en tilmelding med ukendt nøgle
+-- (QueueService.requireGenericLeaf) og platform-eventenes abonnementsopslag
+-- (PlatformEventHandler.requireSubscription). Den første er den varme:
+-- den kører ved hver eneste tilmelding fra en normal kunde, altså for
+-- hovedparten af trafikken.
+--
+-- Uden indekset er det en fuld scanning af `queue`. Det unikke indeks fra V15
+-- hjælper ikke: det ligger på den GENEREREDE kolonne `active_queue_type`, og
+-- MySQL matcher ikke et prædikat skrevet på `queue_type` og `archived_at` mod
+-- den kolonnes CASE-udtryk. Indekset her er derfor ikke en dublet af V15's — de
+-- to svarer på hver sit spørgsmål: V15 håndhæver "højst én aktiv af hver type",
+-- dette her besvarer "hvor er den".
+--
+-- Begge kolonner med, så hele prædikatet kan afgøres i indekset. Kolonnen er
+-- null på alt andet end abonnementsknuder, så indekset er lille uanset hvor
+-- stort træet bliver.
+CREATE INDEX ix_queue_type_active ON queue (queue_type, archived_at);

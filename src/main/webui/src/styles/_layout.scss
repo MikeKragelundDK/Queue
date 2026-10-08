@@ -1,0 +1,35 @@
+@use 'variables' as *;
+
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 360px) 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+.tree-panel {
+  background: $color-panel;
+  border: 1px solid $color-border;
+  border-radius: $radius;
+  box-shadow: $shadow;
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  position: sticky;
+  top: 1rem;
+  max-height: calc(100vh - 6rem);
+  overflow: auto;
+
+  &__footer {
+    border-top: 1px solid $color-border;
+    padding-top: 0.75rem;
+  }
+}

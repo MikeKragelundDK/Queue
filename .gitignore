@@ -1,0 +1,56 @@
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+release.properties
+.flattened-pom.xml
+
+# Eclipse
+.project
+.classpath
+.settings/
+bin/
+
+# IntelliJ
+.idea/
+*.ipr
+*.iml
+*.iws
+
+# NetBeans
+nb-configuration.xml
+
+# Visual Studio Code
+.vscode
+.factorypath
+
+# OSX
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Logs
+*.log
+
+# Quarkus
+.quarkus/
+.env
+
+# CI scan-artefakter
+.trivy-bin/
+trivy-reports/
+
+# Frontend (Quinoa/Svelte)
+src/main/webui/node_modules/
+src/main/webui/dist/
+.quinoa/
+
+# Personlige rapportnoter — bliver lokalt, skal ikke i repoet
+Noter_Til_Rapport.md
+JIRA_STATUS.md
+PLATFORM_EVENTS.md
+PRE_QUEUE_DESIGN.md
+QUEUE_SYSTEM_CONTRACTS.md
+WAITING_ROOM_DESIGN.md

@@ -1,0 +1,13 @@
+// Importeres én gang i main.ts; .svelte-komponenter må ikke have <style>.
+
+@use 'base';
+@use 'layout';
+@use 'tabs';
+@use 'tree';
+@use 'detail';
+@use 'tables';
+@use 'forms';
+@use 'badges';
+@use 'charts';
+@use 'capacity-tree';
+@use 'simulator';

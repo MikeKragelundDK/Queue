@@ -1,0 +1,107 @@
+# CI for queue-system-v2 (Quarkus 3.33 LTS, Java 25).
+# Sikkerhedsscans er strict fra dag ét (greenfield = ren baseline):
+#   - Trivy      : SCA (dependencies) + misconfig (Dockerfiles) + secrets i arbejdskopien
+#   - npm audit  : SCA af frontend-træet, som Trivy ikke dækker (dev-deps)
+#   - Semgrep    : SAST af vores egen Java-kode (Trivy laver ikke SAST)
+#   - TruffleHog : secrets i hele git-historikken
+# Only use spaces to indent your .yml configuration.
+
+image: maven:3.9.16-eclipse-temurin-25
+
+options:
+  max-time: 60
+
+definitions:
+  caches:
+    trivy-db: ~/.cache/trivy
+  services:
+    docker:
+      memory: 3072
+
+pipelines:
+  default:
+    - parallel:
+        - step:
+            name: Build, test & Trivy scan (SCA)
+            size: 2x
+            caches:
+              - maven
+              - trivy-db
+            services:
+              - docker
+            script:
+              - export MAVEN_OPTS='-Xms128M -Xmx1200M'
+              # Quarkus Dev Services starter MySQL/RabbitMQ via Testcontainers mod
+              # pipeline-docker-servicen. Ryuk (testcontainers' reaper) virker ikke
+              # på Bitbucket cloud; containerne ryddes op med steppet alligevel.
+              - export TESTCONTAINERS_RYUK_DISABLED=true
+              - mvn -B --version
+              - mvn -B --no-transfer-progress verify
+              # Efter build, så vuln-scannet kan resolve dependencies fra ~/.m2.
+              - bash ./ci/trivy-scan.sh
+            artifacts:
+              - trivy-reports/**
+        - step:
+            name: Semgrep (SAST)
+            image: semgrep/semgrep:latest
+            script:
+              # Imaget sætter SEMGREP_IN_DOCKER, hvorefter semgrep kræver koden
+              # mounted i /src - men Bitbucket cloner til sin egen dir. Unset, så
+              # semgrep scanner arbejdsmappen som normalt.
+              - unset SEMGREP_IN_DOCKER
+              # --error: findings fejler steppet. Registry-rulesets kræver semgreps
+              # standard-telemetri; vil vi undgå den, skal reglerne vendores lokalt.
+              - semgrep scan --config p/java --config p/security-audit --error
+        - step:
+            name: npm audit (frontend-afhængigheder)
+            image: node:24-alpine
+            script:
+              # Trivy springer dev-afhængigheder over som standard, og ALT i webui
+              # er dev-deps (vite, postcss, esbuild). Uden dette trin er hele
+              # frontend-træet reelt uscannet - opdaget da npm fandt en HIGH i
+              # nanoid, som Trivy rapporterede som "0 sårbarheder".
+              - cd src/main/webui
+              # Læser package-lock.json direkte; kræver ikke npm ci først.
+              # --audit-level=high: samme tærskel som Trivy, så de to scans er enige
+              # om, hvad der er slemt nok til at stoppe et build.
+              - npm audit --audit-level=high
+        - step:
+            name: TruffleHog (secrets i git-historik)
+            image: trufflesecurity/trufflehog:latest
+            clone:
+              depth: full
+            script:
+              - trufflehog git file://. --fail --no-update
+
+  # === Docker Hub push + deploy (BEVIDST DEAKTIVERET - aktiveres når vi er klar) ===
+  # Samme mønster som main-platformen: release-* tags bygger og pusher image,
+  # derefter manuel/automatisk deploy til K8s. Quarkus bygger og pusher selv via
+  # Jib-extensionen - ingen ekstra Dockerfile-steps nødvendige.
+  #
+  # tags:
+  #   release-*:
+  #     - step:
+  #         name: Build, test & push image til Docker Hub
+  #         size: 2x
+  #         caches:
+  #           - maven
+  #         services:
+  #           - docker
+  #         script:
+  #           - export TESTCONTAINERS_RYUK_DISABLED=true
+  #           - mvn -B --no-transfer-progress verify
+  #           - >-
+  #             mvn -B --no-transfer-progress -DskipTests package
+  #             -Dquarkus.container-image.push=true
+  #             -Dquarkus.container-image.registry=docker.io
+  #             -Dquarkus.container-image.group=eventitsystems
+  #             -Dquarkus.container-image.tag=${BITBUCKET_TAG}
+  #             -Dquarkus.container-image.additional-tags=latest
+  #             -Dquarkus.container-image.username=$DOCKERHUB_USERNAME
+  #             -Dquarkus.container-image.password=$DOCKERHUB_PASSWORD
+  #     - step:
+  #         name: Deploy to K8s
+  #         trigger: manual
+  #         image: alpine/k8s:1.31.4
+  #         script:
+  #           - echo "TODO deploy-script når K8s-miljøet er klar"

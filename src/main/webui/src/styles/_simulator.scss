@@ -1,0 +1,38 @@
+@use 'variables' as *;
+
+.simulator {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-left: auto;
+
+  &__label {
+    color: $color-muted;
+    font-size: 0.85rem;
+    margin-right: 0.25rem;
+  }
+
+  button {
+    border: 1px solid $color-border;
+    background: $color-panel;
+    padding: 0.3rem 0.7rem;
+    border-radius: $radius;
+    color: $color-text;
+
+    &:hover {
+      background: $color-hover;
+    }
+
+    &.active {
+      background: $color-selected;
+      font-weight: 600;
+    }
+  }
+
+  &__stats {
+    font-size: 0.85rem;
+    margin-left: 0.25rem;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+}

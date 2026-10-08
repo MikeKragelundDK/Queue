@@ -1,0 +1,52 @@
+// Alle farver og mål defineres her — aldrig hårdkodet i partials.
+
+$font-stack: system-ui, sans-serif;
+$font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+$color-text: #1f2933;
+$color-border: #d7dde3;
+$color-surface: #f0f3f6;
+$color-panel: #ffffff;
+$color-bg: #f7f8fa;
+$color-muted: #708090;
+$color-dirty: #b45309;
+$color-hover: #eef2f7;
+$color-selected: #e0ecff;
+
+$color-error-bg: #fee2e2;
+$color-error-border: #fca5a5;
+
+// Farver står aldrig alene — badges bærer altid tekst.
+$state-styles: (
+  'INITIAL': (bg: #dbeafe, dot: #2563eb),
+  'QUEUED': (bg: #fef3c7, dot: #d97706),
+  'OPEN': (bg: #d1fae5, dot: #059669),
+  'CLOSED': (bg: #e5e7eb, dot: #6b7280),
+);
+
+$level-colors: (
+  'GLOBAL': #64748b,
+  'SUBSCRIPTION': #8b5cf6,
+  'ORGANIZER': #0ea5e9,
+  'EVENT': #ec4899,
+  'MEMBERSYSTEM': #14b8a6,
+);
+
+$color-series: #4f46e5;
+
+// WARN deler rav med QUEUED; rød er reserveret ERROR.
+$log-levels: (
+  'WARN': (bg: #fef3c7, dot: #d97706),
+  'ERROR': (bg: #fee2e2, dot: #dc2626),
+);
+
+$color-at-cap-bg: #fef3c7;
+$color-at-cap-chip-bg: #fde68a;
+$color-at-cap-chip-text: #92400e;
+
+$hbar-label-width: 8rem;
+$hbar-value-width: 5rem;
+
+$radius: 0.4rem;
+$spacing: 0.5rem;
+$shadow: 0 1px 3px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.04);

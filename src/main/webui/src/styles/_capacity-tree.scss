@@ -1,0 +1,85 @@
+@use 'variables' as *;
+
+.cap-tree {
+  font-size: 0.9rem;
+  margin-top: 0.75rem;
+}
+
+.cap-node {
+  &__row {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.22rem 0.3rem;
+    border-radius: $radius;
+
+    &:hover {
+      background: $color-hover;
+    }
+
+    // Teksten i chippen bærer advarslen, ikke farven alene.
+    &.at-cap {
+      background: $color-at-cap-bg;
+    }
+  }
+
+  &__chevron {
+    border: none;
+    background: none;
+    padding: 0 0.2rem;
+    width: 1.2rem;
+    flex: none;
+    color: $color-muted;
+    transition: transform 0.15s ease;
+
+    &:hover {
+      background: none;
+      color: $color-text;
+    }
+
+    &.open {
+      transform: rotate(90deg);
+    }
+  }
+
+  &__chevron-spacer {
+    width: 1.2rem;
+    flex: none;
+  }
+
+  &__name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+  }
+
+  &__value {
+    margin-left: auto;
+    flex: none;
+    padding-left: 0.5rem;
+    color: $color-muted;
+    font-size: 0.8rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__children {
+    margin-left: 0.95rem;
+    border-left: 1px solid $color-border;
+    padding-left: 0.35rem;
+  }
+
+  &__loading {
+    margin: 0.2rem 0 0.2rem 1.6rem;
+  }
+}
+
+.chip-at-cap {
+  flex: none;
+  background: $color-at-cap-chip-bg;
+  color: $color-at-cap-chip-text;
+  border-radius: $radius;
+  padding: 0.05rem 0.35rem;
+  font-size: 0.7rem;
+  white-space: nowrap;
+}

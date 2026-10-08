@@ -1,0 +1,116 @@
+@use 'sass:map';
+@use 'variables' as *;
+
+body {
+  font-family: $font-stack;
+  margin: 1.5rem 2rem;
+  color: $color-text;
+  background: $color-bg;
+}
+
+h1 {
+  font-size: 1.3rem;
+  margin: 0;
+}
+
+h2 {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+h3 {
+  font-size: 1rem;
+  margin-top: 1.5rem;
+}
+
+button {
+  cursor: pointer;
+  font: inherit;
+  padding: 0.4rem 0.7rem;
+  border: 1px solid $color-border;
+  border-radius: $radius;
+  background: $color-panel;
+
+  &:hover {
+    background: $color-surface;
+  }
+
+  &.danger {
+    color: $color-dirty;
+    border-color: currentcolor;
+  }
+}
+
+.muted {
+  color: $color-muted;
+  font-weight: normal;
+  font-size: 0.85rem;
+}
+
+.mono {
+  font-family: $font-mono;
+  font-size: 0.8rem;
+}
+
+.error {
+  background: $color-error-bg;
+  border: 1px solid $color-error-border;
+  padding: $spacing 0.75rem;
+  border-radius: $radius;
+  text-align: left;
+
+  &:hover {
+    background: $color-error-bg;
+  }
+}
+
+.level-square {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 2px;
+  flex: none;
+  display: inline-block;
+}
+
+@each $level, $color in $level-colors {
+  .level-#{$level} {
+    background: $color;
+  }
+}
+
+.dirty {
+  color: $color-dirty;
+  font-weight: 600;
+  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.dirty-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: $color-dirty;
+  flex: none;
+  display: inline-block;
+}
+
+.chip-archived {
+  background: $color-surface;
+  border: 1px solid $color-border;
+  color: $color-muted;
+  font-size: 0.72rem;
+  padding: 0 0.4rem;
+  border-radius: 0.5rem;
+  flex: none;
+}
+
+.tree-panel__toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-top: 1px solid $color-border;
+  padding-top: 0.6rem;
+  cursor: pointer;
+}

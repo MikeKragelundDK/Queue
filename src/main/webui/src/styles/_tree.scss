@@ -1,0 +1,126 @@
+@use 'sass:map';
+@use 'variables' as *;
+
+.tree {
+  font-size: 0.9rem;
+}
+
+.tree-node {
+  &__row {
+    display: flex;
+    align-items: center;
+    border-radius: $radius;
+
+    &:hover {
+      background: $color-hover;
+    }
+
+    &.selected {
+      background: $color-selected;
+    }
+
+    &.archived .tree-node__name {
+      color: $color-muted;
+      text-decoration: line-through;
+      text-decoration-thickness: 1px;
+    }
+  }
+
+  &__chevron {
+    border: none;
+    background: none;
+    padding: 0 0.2rem;
+    width: 1.2rem;
+    flex: none;
+    color: $color-muted;
+    transition: transform 0.15s ease;
+
+    &:hover {
+      background: none;
+      color: $color-text;
+    }
+
+    &.open {
+      transform: rotate(90deg);
+    }
+  }
+
+  &__chevron-spacer {
+    width: 1.2rem;
+    flex: none;
+  }
+
+  &__label {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.28rem 0.4rem;
+    border: none;
+    background: none;
+    flex: 1;
+    min-width: 0;
+    text-align: left;
+
+    &:hover {
+      background: none;
+    }
+  }
+
+  &__name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__children {
+    margin-left: 0.95rem;
+    border-left: 1px solid $color-border;
+    padding-left: 0.35rem;
+  }
+
+  &__loading {
+    margin: 0.2rem 0 0.2rem 1.6rem;
+  }
+}
+
+.tree-node__summary {
+  margin-left: auto;
+  color: $color-muted;
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  flex: none;
+  padding-left: 0.4rem;
+}
+
+.search {
+  input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.45rem 0.6rem;
+    border: 1px solid $color-border;
+    border-radius: $radius;
+    font: inherit;
+  }
+
+  &__results {
+    list-style: none;
+    margin: 0.3rem 0 0;
+    padding: 0;
+
+    li button {
+      width: 100%;
+      text-align: left;
+      border: none;
+      background: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.3rem 0.4rem;
+      border-radius: $radius;
+
+      &:hover {
+        background: $color-hover;
+      }
+    }
+  }
+}
